@@ -1,14 +1,11 @@
 int maxDays,bright,sat; 
 float startSecond,degree,degchar,stringlt,ball; 
-PFont font; 
-//String[] months = new String[12];  
-//PImage img;
-//PImage img2;
+PFont font;   
  
 void setup() {
-  font = loadFont ("SansSerif-36.vlw"); 
+  font = loadFont ("SansSerif-20.vlw"); 
   textFont(font);
-  size(640, 360);
+  size(360,640);
   smooth(); 
   frameRate(25);
   colorMode(HSB,180);
@@ -42,24 +39,21 @@ void setup() {
 } 
  
 void draw() {
-
+   noFill();
+   background(0);
   int s= second();
   int m= minute();
   int h= hour();
   String mo = String.valueOf(month());
   String d = String.valueOf(day());
   String t = nf(s,2) + ":" + nf (m,2) + ":" + nf(h,2) + ":" + d + ":" + mo;
-  text(t,100,displayHeight-450);
-   
-  //text("F00",width/2-100,50);
- 
- 
- //tint(70);
-  //image(img2,70,300);
+  
+  text(t,100,100);
+
    
   pushMatrix(); 
  
-  translate(width/2-80,height/2); 
+  translate(width/2,height/2); 
  
   rotate(radians(140)); 
  

@@ -55,8 +55,8 @@ class Block {
         
     
     c_on = #ff6600;
-    c_off = #EDEDED;
-    //c_off = #000000;
+    //c_off = #EDEDED;
+    c_off = #000000;
     int rectSize = 100; 
     int iOffset = 90;
     int yRect = 270;
@@ -66,8 +66,8 @@ class Block {
     int xRect1 = 100;
     int xRect2 = 200;
     int xRect3 = 300;
-    int xRect4 = 400;
-    int xRect5 = 500;
+    int xRect4 = 450;
+    int xRect5 = 550;
     
     int yBlock = 150;
 
@@ -78,48 +78,45 @@ class Block {
             h1 -= pow(2,i);
         else
             fill(c_off);
-        box(rectSize);
-        //rect(xRect0,yRect-(i*iOffset),rectSize, rectSize);
+            
+        rect(xRect0,yRect-(i*iOffset),rectSize, rectSize);
  
         on (xRect1, yBlock, i);
         if (h0 >= pow(2,i))
             h0 -= pow(2,i);
         else
             fill(c_off);
-        box(rectSize);
-        //rect(xRect1,yRect-(i*iOffset),rectSize, rectSize);
- 
+            
+        rect(xRect1,yRect-(i*iOffset),rectSize, rectSize);
+  
         on (xRect2, yBlock, i);
         if (m1 >= pow(2,i))
             m1 -= pow(2,i);
         else
             fill(c_off);
-        box(rectSize);
-        //rect(xRect2,yRect-(i*iOffset),rectSize, rectSize);
+            
+        rect(xRect2,yRect-(i*iOffset),rectSize, rectSize);
  
         on (xRect3, yBlock, i);
         if (m0 >= pow(2,i))
             m0 -= pow(2,i);
         else
             fill(c_off);
-        box(rectSize);
-        //rect(xRect3,yRect-(i*iOffset),rectSize, rectSize);
+        rect(xRect3,yRect-(i*iOffset),rectSize, rectSize);
  
         on (xRect4, yBlock, i);
         if (s1 >= pow(2,i))
             s1 -= pow(2,i);
         else
             fill(c_off);
-        box(rectSize);
-        //rect(xRect4,yRect-(i*iOffset),rectSize, rectSize);
+        rect(xRect4,yRect-(i*iOffset),rectSize, rectSize);
  
         on (xRect5, yBlock, i);
         if (s0 >= pow(2,i))
             s0 -= pow(2,i);
         else
             fill(c_off);
-        box(rectSize);
-        //rect(xRect5,yRect-(i*iOffset),rectSize, rectSize);
+        rect(xRect5,yRect-(i*iOffset),rectSize, rectSize);
     }
   }
   
@@ -129,8 +126,8 @@ class Block {
     //strokeWeight(strk);
     noFill();
     //stroke(c_on);
-    box(24);
-    //rect(xstart,ystart-(abit*50),24,24);
+    
+    rect(xstart,ystart-(abit*50),24,24);
     noStroke();
     fill(c_on);
   }
