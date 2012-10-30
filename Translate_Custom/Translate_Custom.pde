@@ -6,88 +6,79 @@ float xpos;
 float ypos;
 final int SQUARE_SIZE = 80;
 float dim = 80.0;
+int squareTop, squareLeft;  // Coordinates of top-left corner of square.
 float mx;
 float my;
 PImage Mark;
 float ptI;
 float ptII;
-int x;
-int y;
-
 
 //sets technacalities
 void setup() {
   size(800, 450, P2D);
   smooth() ;
-  frameRate (40);
-  xpos= width/2;
-  ypos= height/2;
-  Mark= loadImage ("Question.png");
   colorMode(HSB, TWO_PI, 100, 100);
+  frameRate (100);
+  xpos= width/2;
+  Mark= loadImage ("Question.png");
+  ypos= height/2;
 }
 
 
 void draw() {
-  background(188);
-  for (int i=0;i<width;i=i+1) {
-    fill(i);
-    rect(0, 0, 800, 450);
-  }
-
-
-  for(int i = 0; i < 255; i++)
-    {
-        stroke(width,height);
-        line(width,height,i,i);
-
-  image (Mark, ptI, ptII);
+  background(#00FFFF);
+  
+   image (Mark, ptI, ptII);
+  rect (100, 700, 100, 350); 
+  fill(0, 75, 80);
   //first two variables in rectange are position, second two are size.
-  rect(xpos, ypos, SQUARE_SIZE, SQUARE_SIZE);
-    fill(#FFFFFF);
-}
+rect(squareLeft,squareTop,SQUARE_SIZE,SQUARE_SIZE);
+  
 
- 
-  }
-  // move the objects before this to stop them
-  //from flashing with the frame updates.
-  void keyPressed()
+
+}
+// move the objects before this to stop them from flashing with the key presses.
+void keyPressed()
   {
     if (key == 'w')
     {
-      ypos-=8;
-      if (ypos < 0)
-        ypos = 0;
+      squareTop-=8;
+if (squareTop < 0)
+      squareTop = 0;
       redraw ();
     }
 
     else if (key == 'a')
     {
-      xpos-=8;
-      if (xpos < 0)
-        xpos = 0;
+      squareLeft-=8;
+       if (squareLeft < 0)
+      squareLeft = 0;
       redraw ();
     }
-
+    
     else if (key == 's')
     {
-      ypos+=8;
-      if (ypos > getSize().height - 0 - SQUARE_SIZE)
-        ypos = getSize().height - 0 - SQUARE_SIZE;
+      squareTop+=8;
+      if (squareTop > getSize().height - 0 - SQUARE_SIZE)
+      squareTop = getSize().height - 0 - SQUARE_SIZE;
       redraw ();
     }
-
+    
     else if (key == 'd')
     {
-      xpos+=8;
-      if (xpos > getSize().width - 0 - SQUARE_SIZE)
-        xpos = getSize().width - 0 - SQUARE_SIZE;
+      squareLeft+=8;
+      if (squareLeft > getSize().width - 0 - SQUARE_SIZE)
+      squareLeft = getSize().width - 0 - SQUARE_SIZE;
       redraw ();
     }
-
+    
     else if (key == KeyEvent.VK_UP)
-    {
-      ptI= ptI+8;
-      redraw();
+    {ptI= ptI+8;
+    redraw();
     }
+   
+
   }
 
+  
+  
