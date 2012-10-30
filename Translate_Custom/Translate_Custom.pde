@@ -1,84 +1,137 @@
 
-//import files would go here. Processing.star file is imported here.
+//import files could go here. processing.* file(s) are imported here.
 
-//defines the variables
-float xpos;
-float ypos;
-final int SQUARE_SIZE = 80;
-float dim = 80.0;
-int squareTop, squareLeft;  // Coordinates of top-left corner of square.
-float mx;
-float my;
-PImage Mark;
-float ptI;
-float ptII;
+//  note: final means that we can never use = again, like squareSize=100; 
+//  also it's capitialized because of this final declaration. 
+//  it's probably more correct to use a final VAR style 
+//  but i'm trying to keep it consistantly simple, i suppose...
+//final int squareSize = 80;
+  
+//define some variables
+float dim;
+int squareSize, imgX, imgY, sqrX, sqrY, offset, xPos, yPos;
+PImage mark;
 
 //sets technacalities
-void setup() {
+void setup() 
+// it is great habbit (and vistually easing) to make the curly braces line up in a single column!
+// remember, the type function declaration above should be at the same tabstop.
+{
   size(800, 450, P2D);
-  smooth() ;
+  //smooth gives softer edges for better frame-to-frame blending
+  smooth();
   colorMode(HSB, TWO_PI, 100, 100);
-  frameRate (100);
-  xpos= width/2;
-  Mark= loadImage ("Question.png");
-  ypos= height/2;
+  //mmm, pie
+  frameRate (24);
+  //the human eye has a hard time seeing more than 24 FPS
+
+  //initialize some variable values:
+  squareSize = 80;
+  dim = 80.0;
+  imgX=0;
+  imgY=0;
+  //amount to offset each tiled image, essentialy width of image.
+  offset=60;
+  xPos= width-100;
+  yPos= height-100;
+  mark= loadImage ("Question.png");
+  
 }
 
 
 void draw() {
-  background(#00FFFF);
+  // draw is a loop that runs at the specified frameRate
   
-   image (Mark, ptI, ptII);
-  rect (100, 700, 100, 350); 
-  fill(0, 75, 80);
+  //set the background every frame update (serveral times per second)
+  background(100);
+  //draw the question mark a buncha times
+  image (mark, imgX, imgY);
+  image (mark, imgX+offset*2, imgY);
+  image (mark, imgX+offset*4, imgY);
+  image (mark, imgX+offset*6, imgY);
+  //#TODO: repeat for outside walls.
+
+  // http://processing.org/reference/constrain_.html
+  // constrain(amt, low, high)
+  sqrX = constrain(sqrX, 100, xPos);
+  sqrY = constrain(sqrY, 100, yPos);
+  //draw a rectangle that we are going to move with the keyboard
+
+ 
   //first two variables in rectange are position, second two are size.
-rect(squareLeft,squareTop,SQUARE_SIZE,SQUARE_SIZE);
-  
-
-
+  //rect(edge, edge, width-edge, height-edge);
+  rect(sqrX,sqrY,squareSize,squareSize);
+   //fill the rectangle with a red color
+  fill(0, 75, 80);
 }
+
 // move the objects before this to stop them from flashing with the key presses.
-void keyPressed()
-  {
+void keyPressed() {
+    // behold! lined up curly braces make it easier to keep track of opening & closing 
+    // if statments... 
     if (key == 'w')
     {
-      squareTop-=8;
-if (squareTop < 0)
-      squareTop = 0;
-      redraw ();
-    }
+      moveNorth();   
+    } else if (key == 'a') //i like to keep else if on the same the same line..
+    {
+     moveWest();
+    } else if (key == 's')
+    {
+      moveSouth();
+    } else if (key == 'd')
+    {
+     moveEast();
+    } else if (key == CODED) 
+    {
+      //we first have to check if key==CODED to determine if it will be a pre-defined CONSTANT
+      // this also helps with press-and-hold issues...
+      if (keyCode == UP) 
+      {
+        moveNorth();
+      } else if (keyCode == DOWN) 
+      {
+        moveSouth();
+      } //end if
+    } //end if
+} //end keyPressed
 
-    else if (key == 'a')
-    {
-      squareLeft-=8;
-       if (squareLeft < 0)
-      squareLeft = 0;
-      redraw ();
-    }
-    
-    else if (key == 's')
-    {
-      squareTop+=8;
-      if (squareTop > getSize().height - 0 - SQUARE_SIZE)
-      squareTop = getSize().height - 0 - SQUARE_SIZE;
-      redraw ();
-    }
-    
-    else if (key == 'd')
-    {
-      squareLeft+=8;
-      if (squareLeft > getSize().width - 0 - SQUARE_SIZE)
-      squareLeft = getSize().width - 0 - SQUARE_SIZE;
-      redraw ();
-    }
-    
-    else if (key == KeyEvent.VK_UP)
-    {ptI= ptI+8;
-    redraw();
-    }
-   
-
+void moveNorth()
+{
+  sqrY-=8;
+  if (sqrY < 0)
+  {
+    sqrY = 0;
   }
+  redraw ();  
+}
 
-  
+void moveSouth()
+{
+  sqrY+=8;
+  //#TODO: re-work this. 
+  //if (sqrY > getSize().height - 0 - squareSize)
+  //{
+  //  sqrY = getSize().height - 0 - squareSize;
+  //}
+  redraw ();
+}
+
+void moveEast() 
+{
+  sqrX += 8;
+  //#TODO: re-work this. 
+  //if (sqrX > getSize().width - 0 - squareSize)
+  //sqrX = getSize().width - 0 - squareSize;
+  redraw ();
+}
+
+void moveWest() 
+{
+   sqrX-=8;
+   if (sqrX < 0) 
+   {
+     sqrX = 0;
+   }
+  redraw ();
+}
   
