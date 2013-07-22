@@ -100,7 +100,7 @@ void mouseReleased() {
 
 void loadDisplayStrings() { 
   //zero-zero-based
-  displayTxtItems = 10;
+  displayTxtItems = 11;
   displayTxt = new Array();
   displayTxt.push("REPEAT!");
   displayTxt.push("THE BATTERY\nPOWERED\nORCHESTRA\nWORKSHOP");
