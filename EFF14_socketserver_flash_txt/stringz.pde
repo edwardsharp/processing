@@ -15,3 +15,16 @@ String[] tMots = {
   "principals", "do", "not", "give", "that", "guy",
   "money"
 }; 
+
+
+String[] tMots2 = {
+  "ff", "bbb", "aaa", "ggg", "ggggg",
+  "scrutiny"
+}; 
+
+String[] tMots3 = {
+  "3", "33", "333", "3333", "33333",
+  "anyway"
+}; 
+
+
