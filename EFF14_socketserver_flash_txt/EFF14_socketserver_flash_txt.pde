@@ -1,10 +1,7 @@
 /**
- * SIMPLE 
- * 
- * Example displaying values received from
- * the touchOSC "Simple" layout
- * http://hexler.net/touchosc
- *
+ * EFF14
+ * a hacky smorgishborg.
+ * phew.
  */
 import muthesius.net.*;
 import org.webbitserver.*;
@@ -14,7 +11,11 @@ import oscP5.*;
 import netP5.*;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
-WebSocketP5 socket;
+WebSocketP5 socket1;
+WebSocketP5 socket2;
+WebSocketP5 socket3;
+WebSocketP5 socket4;
+
 //end OSC
 
 int timeStamp;
@@ -28,20 +29,33 @@ boolean isRunning = false;
 boolean enableGlitch = false;
 int whichStrArr = 1;
 
-String[] getStrArr(int which){
+String[] getStrArr(int which, int sub){
   if(which == 1){
-    return tMots;
+    if(sub == 1){
+      return tMots1A;
+    }else if(sub == 2){
+      return tMots1B;
+    }else if(sub == 3){
+      return tMots1C;
+    }else if(sub == 4){
+      return tMots1D;
+    }else{
+      return tMots1A;
+    }
   }else if(which == 2){
     return tMots2;
   }else if(which == 3){
     return tMots3;  
   }else{
-     return tMots;
+     return tMots1A;
   }
 }
 
 void setup() {
-  socket = new WebSocketP5(this,8080);
+  socket1 = new WebSocketP5(this,8001,"socket1");
+  socket2 = new WebSocketP5(this,8002,"socket2");
+  socket3 = new WebSocketP5(this,8003,"socket3");
+  socket4 = new WebSocketP5(this,8004,"socket4");
   size(800, 600);
   smooth();
   background(255);
@@ -66,13 +80,16 @@ void draw() {
     int tempsRand = int(random(0,333));
     
     //this probably doesn't ned to be calculated every frame...
-    int timeX = (getStrArr(whichStrArr)[valR].length() * 44);
+    int timeX = (getStrArr(whichStrArr, 1)[valR].length() * 100);
   //    println(timeX);
       tempsRand = tempsRand + timeX;
     
     if (tempsEcouleMots >= tempsRand/2) {
-      background(255);
-     socket.broadcast(" ");
+//      background(255);
+//     socket1.broadcast(" ");
+//     socket2.broadcast(" ");
+//     socket3.broadcast(" ");
+//     socket4.broadcast(" ");
     }
     
     if (tempsEcouleMots >= tempsRand) {
@@ -84,7 +101,7 @@ void draw() {
       
       if(enableDutyCycle){
         if(dutyCycleCount % dutyCycleMod == 0){
-          valR = int(random(0, getStrArr(whichStrArr).length));
+          valR = int(random(0, getStrArr(whichStrArr,1).length));
           dutyCycleMod = int(random(22,44));
           //background(0);
           //fill(#666666);
@@ -93,33 +110,39 @@ void draw() {
               int r=int(random(50));
               if(random(2,10) % 2 == 0){
                 if(random(2,10) % 2 == 0){
-                  text(getStrArr(whichStrArr)[valR], x, y-r-i);
+                  text(getStrArr(whichStrArr,1)[valR], x, y-r-i);
                 }else{
                   if(random(2,10) % 2 == 0){
-                    text(getStrArr(whichStrArr)[valR], x, y+r+i);
+                    text(getStrArr(whichStrArr,1)[valR], x, y+r+i);
                   }else{
-                    text(getStrArr(whichStrArr)[valR], x, y-r-i);
+                    text(getStrArr(whichStrArr,1)[valR], x, y-r-i);
                   }
                 }
               }else{
-                text(getStrArr(whichStrArr)[valR], x+r+i, y);
+                text(getStrArr(whichStrArr,1)[valR], x+r+i, y);
               }
             }
           } //enableGlitch
     
-          text(getStrArr(whichStrArr)[valR], x, y);
-          socket.broadcast(getStrArr(whichStrArr)[valR]);
-          sendMessage(getStrArr(whichStrArr)[valR]);
+          text(getStrArr(whichStrArr,1)[valR], x, y);
+          socket1.broadcast(getStrArr(whichStrArr,1)[valR]);
+          socket2.broadcast(getStrArr(whichStrArr,2)[valR]);
+          socket3.broadcast(getStrArr(whichStrArr,3)[valR]);
+          socket4.broadcast(getStrArr(whichStrArr,4)[valR]);
+          sendMessage(getStrArr(whichStrArr,1)[valR]);
           
     //      println("NEW valR "+valR+" dutyCycleMod "+dutyCycleMod);
         }else{
           valR++;
-          if(valR > getStrArr(whichStrArr).length - 1){
+          if(valR > getStrArr(whichStrArr,1).length - 1){
             valR = 0;
           }
-          text(getStrArr(whichStrArr)[valR], x, y);
-          socket.broadcast(getStrArr(whichStrArr)[valR]);
-          sendMessage(getStrArr(whichStrArr)[valR]);
+          text(getStrArr(whichStrArr,1)[valR], x, y);
+          socket1.broadcast(getStrArr(whichStrArr,1)[valR]);
+          socket2.broadcast(getStrArr(whichStrArr,2)[valR]);
+          socket3.broadcast(getStrArr(whichStrArr,3)[valR]);
+          socket4.broadcast(getStrArr(whichStrArr,4)[valR]);
+          sendMessage(getStrArr(whichStrArr,1)[valR]);
         }
         dutyCycleCount++;
         if(dutyCycleCount>999999){
@@ -128,12 +151,15 @@ void draw() {
       }else{
         //sort of lazy duplication here...
         valR++;
-        if(valR > getStrArr(whichStrArr).length - 1){
+        if(valR > getStrArr(whichStrArr,1).length - 1){
           valR = 0;
         }
-        text(getStrArr(whichStrArr)[valR], x, y);
-        socket.broadcast(getStrArr(whichStrArr)[valR]);
-        sendMessage(getStrArr(whichStrArr)[valR]);
+        text(getStrArr(whichStrArr,1)[valR], x, y);
+        socket1.broadcast(getStrArr(whichStrArr,1)[valR]);
+        socket2.broadcast(getStrArr(whichStrArr,2)[valR]);
+        socket3.broadcast(getStrArr(whichStrArr,3)[valR]);
+        socket4.broadcast(getStrArr(whichStrArr,4)[valR]);
+        sendMessage(getStrArr(whichStrArr,1)[valR]);
       }
       
       
@@ -157,7 +183,10 @@ void keyPressed(){
 
 
 void stop(){
-  socket.stop();
+  socket1.stop();
+  socket2.stop();
+  socket3.stop();
+  socket4.stop();
 }
 
 void mousePressed(){
@@ -178,7 +207,10 @@ void websocketOnClosed(WebSocketConnection con){
 
 void handleStartStop(){
   isRunning = !isRunning;
-  socket.broadcast(" ");
+  socket1.broadcast(" ");
+  socket2.broadcast(" ");
+  socket3.broadcast(" ");
+  socket4.broadcast(" ");
   sendMessage("");
 }
 // OSC STUFFZ
@@ -208,7 +240,7 @@ void oscEvent(OscMessage theOscMessage) {
     else if(addr.equals("/1/multitoggle1/2/2"))   { handlePush(6, int(val)); }
     else if(addr.equals("/1/multitoggle1/3/2"))   { handlePush(7, int(val)); }
     else if(addr.equals("/1/multitoggle1/4/2"))   { handlePush(8, int(val)); }
-    else if(addr.equals("/1/multitoggle1/1/3"))   { handlePush(9, int(val)); }
+    else if(addr.equals("/1/multitogglsse1/1/3"))   { handlePush(9, int(val)); }
     else if(addr.equals("/1/multitoggle1/2/3"))   { handlePush(10, int(val)); }
     else if(addr.equals("/1/multitoggle1/3/3"))   { handlePush(11, int(val)); }
     else if(addr.equals("/1/multitoggle1/4/3"))   { handlePush(12, int(val)); }
@@ -234,5 +266,5 @@ void sendMessage(String msg) {
    */
   OscP5.flush(myOscMessage,myRemoteLocation);
   
-  println("SENT MESSAGE!");
+//  println("SENT MESSAGE!");
 }

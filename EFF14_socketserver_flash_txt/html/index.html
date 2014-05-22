@@ -3,22 +3,31 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>EFF14 TXT SOCKET</title>
+		<style type="text/css">
+			#toggr{ position: absolute; top:0; left:0; height: 1em; width: 100%; }
+		</style>
 		<script src="processing.js" type="text/javascript"></script>
-		<script type="text/javascript">
-// convenience function to get the id attribute of generated sketch html element
-function getProcessingSketchId () { return 'EFF14flashtxtjs'; }
-</script>
 
 		<script src="/scripts/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 		
-			
+			// convenience function to get the id attribute of generated sketch html element
+			function getProcessingSketchId () { return 'EFF14flashtxtjs'; }
+
 			var ws = null;
-			var host = "eeeeee.local"
-			var port = 8080
-			var socket = "p5websocket"
+			var host = "eeeeee.local";
+			var port = location.port;
+			var socket = "socket"+parseInt((location.port + '').substr(3,1));;
 			var processingInstance;
-			
+
+			function toggleVisibility(id) {
+		       var e = document.getElementById(id);
+		       if(e.style.display == 'none')
+		          e.style.display = 'block';
+		       else
+		          e.style.display = 'none';
+		    }
+
 			function ready(){
 				console.log("trying to open a websocket")
 				var _socket = (undefined==socket)?"":"/"+socket
@@ -47,7 +56,8 @@ function getProcessingSketchId () { return 'EFF14flashtxtjs'; }
 				// Log messages from the server
 				ws.onmessage = function (e) {
 				  $('#log').text(e.data+$('#log').text())
-				  console.log('Server: ' + e.data);
+				  
+				  // console.log('Server: ' + e.data);
 				  
 				  if (!processingInstance) {
 					processingInstance = Processing.getInstanceById('EFF14flashtxtjs');
@@ -65,6 +75,15 @@ function getProcessingSketchId () { return 'EFF14flashtxtjs'; }
 		</script>
 	</head>
 	<body>
+		<div id="toggr" onclick="toggleVisibility('foo');">
+			
+			<span id="foo">
+			<a href="http://eeeeee.local:8001">[_1_]</a>
+			<a href="http://eeeeee.local:8002">[_2_]</a>
+			<a href="http://eeeeee.local:8003">[_3_]</a>
+			<a href="http://eeeeee.local:8004">[_4_]</a></span>
+		</div>
+
 		<div id="content">
 			<div>
 				<canvas id="EFF14flashtxtjs" data-processing-sources="EFF14_flash_txt_js.pde" 
@@ -84,6 +103,7 @@ function getProcessingSketchId () { return 'EFF14flashtxtjs'; }
 		<div id="log">
 			
 		</div>
+
 	</body>
 	</html>
 

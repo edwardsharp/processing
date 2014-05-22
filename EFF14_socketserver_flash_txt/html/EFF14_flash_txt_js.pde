@@ -14,8 +14,8 @@ void showTxt(String txt){
   background(255);
   fill(0);
   textSize(66);
-  int x = 300;//int(random(0, width-75));
-  int y = 266;//int(random(30, height-30));
+  int x = 0;//int(random(0, width-75));
+  int y = 66;//int(random(30, height-30));
   text(txt, x, y);
 }
 
