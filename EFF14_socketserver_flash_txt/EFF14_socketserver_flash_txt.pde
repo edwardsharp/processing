@@ -11,6 +11,10 @@ import oscP5.*;
 import netP5.*;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
+NetAddress pi0Location;
+NetAddress pi1Location;
+NetAddress pi2Location;
+NetAddress pi3Location;
 WebSocketP5 socket1;
 WebSocketP5 socket2;
 WebSocketP5 socket3;
@@ -67,7 +71,10 @@ void setup() {
   oscP5 = new OscP5(this,"eeeeee.local",5000);
   
   myRemoteLocation = new NetAddress("e.local",9000);
-
+  pi0Location = new NetAddress("pi0",5000);
+  pi1Location = new NetAddress("pi1",5000);
+  pi2Location = new NetAddress("pi2",5000);
+  pi3Location = new NetAddress("pi3",5000);
 }
 
 void draw() {
@@ -179,6 +186,9 @@ void keyPressed(){
   if(key == 't' || key == 'T'){
     sendMessage(millis()+"");
   }
+  if(key == 'p' || key == 'P'){
+    sendTestToPi(millis()+"");
+  }
 }
 
 
@@ -244,8 +254,27 @@ void oscEvent(OscMessage theOscMessage) {
     else if(addr.equals("/1/multitoggle1/2/3"))   { handlePush(10, int(val)); }
     else if(addr.equals("/1/multitoggle1/3/3"))   { handlePush(11, int(val)); }
     else if(addr.equals("/1/multitoggle1/4/3"))   { handlePush(12, int(val)); }
+    //if none of these then forward the message onto the piz
+    else{ handlePiOSC(theOscMessage); }
 }
 
+void sendTestToPi(String msg){
+  //#TODO this is brok
+  println("GONNA SEND A TEST TO THE PI");
+  OscMessage myOscMessage = new OscMessage("/2/multipush2/2/1");
+  myOscMessage.add(1);
+  OscP5.flush(myOscMessage,pi2Location);
+//  OscP5.flush(theOscMessage,pi2Location);
+}
+
+void handlePiOSC(OscMessage theOscMessage){
+  println("GONNA FORWARD IT ON TO THE PIZ: "+theOscMessage.addrPattern());
+  
+  OscP5.flush(theOscMessage,pi0Location);
+  OscP5.flush(theOscMessage,pi1Location);
+  OscP5.flush(theOscMessage,pi2Location);
+  OscP5.flush(theOscMessage,pi3Location);
+}
 
 void sendMessage(String msg) {
 //  /* create a new osc message object */
