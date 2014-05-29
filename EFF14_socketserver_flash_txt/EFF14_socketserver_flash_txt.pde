@@ -47,9 +47,89 @@ String[] getStrArr(int which, int sub){
       return tMots1A;
     }
   }else if(which == 2){
-    return tMots2;
+    if(sub == 1){
+      return tMots2A;
+    }else if(sub == 2){
+      return tMots2B;
+    }else if(sub == 3){
+      return tMots2C;
+    }else if(sub == 4){
+      return tMots2D;
+    }else{
+      return tMots2A;
+    }
   }else if(which == 3){
-    return tMots3;  
+    if(sub == 1){
+      return tMots3A;
+    }else if(sub == 2){
+      return tMots3B;
+    }else if(sub == 3){
+      return tMots3C;
+    }else if(sub == 4){
+      return tMots3D;
+    }else{
+      return tMots3A;
+    }  
+  }else if(which == 4){
+    if(sub == 1){
+      return tMots4A;
+    }else if(sub == 2){
+      return tMots4B;
+    }else if(sub == 3){
+      return tMots4C;
+    }else if(sub == 4){
+      return tMots4D;
+    }else{
+      return tMots4A;
+    }  
+  }else if(which == 5){
+    if(sub == 1){
+      return tMots5A;
+    }else if(sub == 2){
+      return tMots5B;
+    }else if(sub == 3){
+      return tMots5C;
+    }else if(sub == 4){
+      return tMots5D;
+    }else{
+      return tMots5A;
+    }  
+  }else if(which == 6){
+    if(sub == 1){
+      return tMots6A;
+    }else if(sub == 2){
+      return tMots6B;
+    }else if(sub == 3){
+      return tMots6C;
+    }else if(sub == 4){
+      return tMots6D;
+    }else{
+      return tMots6A;
+    }  
+  }else if(which == 7){
+    if(sub == 1){
+      return tMots7A;
+    }else if(sub == 2){
+      return tMots7B;
+    }else if(sub == 3){
+      return tMots7C;
+    }else if(sub == 4){
+      return tMots7D;
+    }else{
+      return tMots7A;
+    }  
+  }else if(which == 8){
+    if(sub == 1){
+      return tMots8A;
+    }else if(sub == 2){
+      return tMots8B;
+    }else if(sub == 3){
+      return tMots8C;
+    }else if(sub == 4){
+      return tMots8D;
+    }else{
+      return tMots8A;
+    }  
   }else{
      return tMots1A;
   }
@@ -69,12 +149,18 @@ void setup() {
   /* start oscP5, listening for incoming messages at port 5000 */
   //239.0.0.1
   oscP5 = new OscP5(this,"eeeeee.local",5000);
+//  oscP5 = new OscP5(this,5000);
   
   myRemoteLocation = new NetAddress("e.local",9000);
-  pi0Location = new NetAddress("pi0",5000);
-  pi1Location = new NetAddress("pi1",5000);
-  pi2Location = new NetAddress("pi2",5000);
-  pi3Location = new NetAddress("pi3",5000);
+  
+  try{
+    pi0Location = new NetAddress("pi0",5000);
+    pi1Location = new NetAddress("pi1",5000);
+    pi2Location = new NetAddress("pi2",5000);
+    pi3Location = new NetAddress("pi3",5000);
+  } catch(Exception e){
+   //o noz! 
+  }
 }
 
 void draw() {
@@ -87,7 +173,7 @@ void draw() {
     int tempsRand = int(random(0,333));
     
     //this probably doesn't ned to be calculated every frame...
-    int timeX = (getStrArr(whichStrArr, 1)[valR].length() * 100);
+    int timeX = (getStrArr(whichStrArr, 1)[valR].length() * 160);
   //    println(timeX);
       tempsRand = tempsRand + timeX;
     
@@ -189,6 +275,39 @@ void keyPressed(){
   if(key == 'p' || key == 'P'){
     sendTestToPi(millis()+"");
   }
+  if(key == '1'){
+    whichStrArr=1;
+    valR = 0;
+  }
+  if(key == '2'){
+    whichStrArr=2;
+    valR = 0;
+  }
+  if(key == '3'){
+    whichStrArr=3;
+    valR = 0;
+  }
+  if(key == '4'){
+    whichStrArr=4;
+    valR = 0;
+  }
+  if(key == '5'){
+    whichStrArr=5;
+    valR = 0;
+  }
+  if(key == '6'){
+    whichStrArr=6;
+    valR = 0;
+  }
+  if(key == '7'){
+    whichStrArr=7;
+    valR = 0;
+  }
+  if(key == '8'){
+    whichStrArr=8;
+    valR = 0;
+  }
+  
 }
 
 
@@ -293,7 +412,11 @@ void sendMessage(String msg) {
   
   /* send the OscMessage to the remote location. 
    */
-  OscP5.flush(myOscMessage,myRemoteLocation);
-  
+  try{ 
+    OscP5.flush(myOscMessage,myRemoteLocation);
+  }catch(NullPointerException e){
+    //o noz!
+    println("CANNOTE SEND TO REMOTE");
+  }
 //  println("SENT MESSAGE!");
 }
